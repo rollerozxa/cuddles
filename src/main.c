@@ -4,6 +4,9 @@
 #include <unistd.h>
 
 #include "consts.h"
+#include "game.h"
+#include "screen.h"
+#include "scene.h"
 
 int main(int argc, char* argv[]) {
 
@@ -26,6 +29,11 @@ int main(int argc, char* argv[]) {
 
 	bool quit = false;
 
+	add_scene((Scene){"screen", screen_update, screen_draw});
+	add_scene((Scene){"game", game_update, game_draw});
+
+	SDL_assert(switch_scene("game") == 1);
+	SDL_assert(switch_scene("scene") == 1);
 
 	while (!quit) {
 		SDL_Event ev;
@@ -37,13 +45,13 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		//update
+		run_scene_update();
 
 		SDL_SetRenderDrawColor(renderer, 0xAA, 0xAA, 0xAA, 0xFF);
 
 		SDL_RenderClear(renderer);
 
-		//draw
+		run_scene_draw(renderer);
 
 		SDL_RenderPresent(renderer);
 	}
