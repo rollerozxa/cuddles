@@ -24,6 +24,8 @@ int main(int argc, char* argv[]) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
 	}
 
+	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+
 	SDL_RenderSetVSync(renderer, 1);
 	SDL_SetWindowTitle(window, "roller <3 kittynunu");
 
@@ -47,7 +49,7 @@ int main(int argc, char* argv[]) {
 
 		run_scene_update();
 
-		SDL_SetRenderDrawColor(renderer, 0xAA, 0xAA, 0xAA, 0xFF);
+		SDL_SetRenderDrawColor(renderer, 0x11, 0x11, 0x11, 0xFF);
 
 		SDL_RenderClear(renderer);
 
