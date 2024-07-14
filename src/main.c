@@ -8,6 +8,8 @@
 #include "screen.h"
 #include "scene.h"
 
+bool quit = false;
+
 int main(int argc, char* argv[]) {
 
 	SDL_Init(SDL_INIT_VIDEO);
@@ -24,18 +26,18 @@ int main(int argc, char* argv[]) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
 	}
 
-	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+	SDL_RenderSetLogicalSize(renderer, NATIVE_WIDTH, NATIVE_HEIGHT);
 
 	SDL_RenderSetVSync(renderer, 1);
 	SDL_SetWindowTitle(window, "roller <3 kittynunu");
-
-	bool quit = false;
 
 	add_scene((Scene){"screen", screen_update, screen_draw});
 	add_scene((Scene){"game", game_update, game_draw});
 
 	SDL_assert(switch_scene("game") == 1);
-	SDL_assert(switch_scene("scene") == 1);
+	SDL_assert(switch_scene("screen") == 1);
+
+	screen_init();
 
 	while (!quit) {
 		SDL_Event ev;
@@ -47,13 +49,13 @@ int main(int argc, char* argv[]) {
 			}
 		}
 
-		run_scene_update();
+		screen_update();
 
 		SDL_SetRenderDrawColor(renderer, 0x11, 0x11, 0x11, 0xFF);
 
 		SDL_RenderClear(renderer);
 
-		run_scene_draw(renderer);
+		screen_draw(renderer);
 
 		SDL_RenderPresent(renderer);
 	}

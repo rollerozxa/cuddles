@@ -24,12 +24,12 @@ SDL_Texture* load_font(SDL_Renderer *renderer) {
 	return texture;
 }
 
-SDL_Point gridsize = {32, 8};
-SDL_Point glyphsize = {8, 16};
+#define FGRID_WIDTH (FONT_WIDTH/GLYPH_WIDTH)
+#define FGRID_HEIGHT (FONT_HEIGHT/GLYPH_HEIGHT)
 
 void draw_char(SDL_Renderer *renderer, char character, int cx, int cy) {
-	int cell_x = character % gridsize.x;
-	int cell_y = character / gridsize.x;
+	int cell_x = character % FGRID_WIDTH;
+	int cell_y = character / FGRID_WIDTH;
 
 	if (font_tex == NULL) {
 		font_tex = load_font(renderer);
@@ -37,13 +37,13 @@ void draw_char(SDL_Renderer *renderer, char character, int cx, int cy) {
 
 	SDL_RenderCopy(
 		renderer, font_tex,
-		RECT(cell_x*8, cell_y*16, glyphsize.x, glyphsize.y),
-		RECT(cx, cy, glyphsize.x, glyphsize.y)
+		RECT(cell_x*GLYPH_WIDTH, cell_y*GLYPH_HEIGHT, GLYPH_WIDTH, GLYPH_HEIGHT),
+		RECT(cx, cy, GLYPH_WIDTH, GLYPH_HEIGHT)
 	);
 }
 
 void draw_text(SDL_Renderer *renderer, const char* text, int x, int y) {
 	for (size_t i = 0; text[i] != '\0'; i++) {
-		draw_char(renderer, text[i], x+i*glyphsize.x, y);
+		draw_char(renderer, text[i], x+i*GLYPH_WIDTH, y);
 	}
 }

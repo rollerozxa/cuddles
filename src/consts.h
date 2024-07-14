@@ -2,14 +2,19 @@
 
 // Native resolution at which the game will be rendered
 #define NATIVE_WIDTH    640
-#define NATIVE_HEIGHT   480
+#define NATIVE_HEIGHT   320
 
 // Size of the screen (scaled up/down from native res)
-#define SCREEN_WIDTH    NATIVE_WIDTH
-#define SCREEN_HEIGHT   NATIVE_HEIGHT
+#define SCREEN_WIDTH    NATIVE_WIDTH*2
+#define SCREEN_HEIGHT   NATIVE_HEIGHT*2
 
-// Max scenes to be allocated
-#define MAX_SCENES 10
+#define GLYPH_WIDTH 8
+#define GLYPH_HEIGHT 16
+
+#define CELLS_X (NATIVE_WIDTH/GLYPH_WIDTH)
+#define CELLS_Y (NATIVE_HEIGHT/GLYPH_HEIGHT)
+
+
 
 // Constants for upper two rows of special ASCII symbols
 #define CH_HAPPY		"\x01"
@@ -44,6 +49,8 @@
 #define CH_UP_TRIANGLE	"\x1E"
 #define CH_DOWN_TRIANGLE "\x1F"
 
+// Max scenes to be allocated
+#define MAX_SCENES 10
 
 
 // Misc helper macros
