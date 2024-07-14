@@ -42,10 +42,9 @@ int main(int argc, char* argv[]) {
 	while (!quit) {
 		SDL_Event ev;
 		while (SDL_PollEvent(&ev)) {
-			switch (ev.type) {
-				case SDL_QUIT:
-					quit = true;
-					break;
+			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.scancode == SDL_SCANCODE_Q)) {
+				quit = true;
+				break;
 			}
 		}
 
