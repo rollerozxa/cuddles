@@ -27,13 +27,15 @@ SDL_Texture* load_font(SDL_Renderer *renderer) {
 #define FGRID_WIDTH (FONT_WIDTH/GLYPH_WIDTH)
 #define FGRID_HEIGHT (FONT_HEIGHT/GLYPH_HEIGHT)
 
-void draw_char(SDL_Renderer *renderer, char character, int cx, int cy) {
+void draw_char(SDL_Renderer *renderer, unsigned char character, int cx, int cy, SDL_Color clr) {
 	int cell_x = character % FGRID_WIDTH;
 	int cell_y = character / FGRID_WIDTH;
 
 	if (font_tex == NULL) {
 		font_tex = load_font(renderer);
 	}
+
+	SDL_SetTextureColorMod(font_tex, clr.r, clr.g, clr.b);
 
 	SDL_RenderCopy(
 		renderer, font_tex,
@@ -42,8 +44,8 @@ void draw_char(SDL_Renderer *renderer, char character, int cx, int cy) {
 	);
 }
 
-void draw_text(SDL_Renderer *renderer, const char* text, int x, int y) {
+void draw_text(SDL_Renderer *renderer, const char* text, int x, int y, SDL_Color clr) {
 	for (size_t i = 0; text[i] != '\0'; i++) {
-		draw_char(renderer, text[i], x+i*GLYPH_WIDTH, y);
+		draw_char(renderer, text[i], x+i*GLYPH_WIDTH, y, clr);
 	}
 }

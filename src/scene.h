@@ -4,7 +4,7 @@
 
 typedef struct {
 	const char* name;
-    void (*update)(void);
+	void (*update)(void);
 	void (*draw)(SDL_Renderer*);
 } Scene;
 

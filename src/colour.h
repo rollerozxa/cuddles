@@ -1,0 +1,24 @@
+#pragma once
+
+#include <SDL2/SDL.h>
+
+enum CuddlesColours {
+	CLR_BLACK,
+	CLR_BLUE,
+	CLR_GREEN,
+	CLR_CYAN,
+	CLR_RED,
+	CLR_MAGENTA,
+	CLR_BROWN,
+	CLR_WHITE,
+	CLR_GREY,
+	CLR_LIGHT_BLUE,
+	CLR_LIGHT_GREEN,
+	CLR_LIGHT_CYAN,
+	CLR_LIGHT_RED,
+	CLR_LIGHT_MAGENTA,
+	CLR_YELLOW,
+	CLR_BRIGHT_WHITE
+};
+
+SDL_Color colour_to_sdl(int colour);

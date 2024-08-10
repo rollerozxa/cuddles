@@ -31,11 +31,9 @@ int main(int argc, char* argv[]) {
 	SDL_RenderSetVSync(renderer, 1);
 	SDL_SetWindowTitle(window, "roller <3 kittynunu");
 
-	add_scene((Scene){"screen", screen_update, screen_draw});
 	add_scene((Scene){"game", game_update, game_draw});
 
 	SDL_assert(switch_scene("game") == 1);
-	SDL_assert(switch_scene("screen") == 1);
 
 	screen_init();
 

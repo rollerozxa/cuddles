@@ -14,7 +14,8 @@
 #define CELLS_X (NATIVE_WIDTH/GLYPH_WIDTH)
 #define CELLS_Y (NATIVE_HEIGHT/GLYPH_HEIGHT)
 
-
+// Colours
+#include "colour.h"
 
 // Constants for upper two rows of special ASCII symbols
 #define CH_HAPPY		"\x01"
@@ -48,6 +49,17 @@
 #define CH_DUMBBELL		"\x1D"
 #define CH_UP_TRIANGLE	"\x1E"
 #define CH_DOWN_TRIANGLE "\x1F"
+
+#define CH_LIGHT_SHADE		"\xB0"
+#define CH_MEDIUM_SHADE		"\xB1"
+#define CH_DARK_SHADE		"\xB2"
+
+#define CH_BOX				"\xDB"
+#define CH_LOWER_HALF_BOX	"\xDC"
+#define CH_LEFT_HALF_BOX	"\xDD"
+#define CH_RIGHT_HALF_BOX	"\xDE"
+#define CH_UPPER_HALF_BOX	"\xDF"
+
 
 // Max scenes to be allocated
 #define MAX_SCENES 10
