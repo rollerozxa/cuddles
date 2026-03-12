@@ -1,6 +1,6 @@
 #pragma once
 
-#include <SDL2/SDL.h>
+#include <SDL3/SDL.h>
 
 SDL_Texture* load_font(SDL_Renderer *renderer);
 

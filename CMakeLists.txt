@@ -7,14 +7,12 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-find_package(SDL2 REQUIRED)
+find_package(SDL3 REQUIRED)
 
 include_directories(
 	src/
 	lib/
 )
-
-include_directories(${SDL2_INCLUDE_DIRS})
 
 file(GLOB SRCS
 	src/*.c
@@ -23,4 +21,4 @@ file(GLOB SRCS
 
 add_executable(${PROJECT_NAME} ${SRCS})
 
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} SDL3::SDL3)

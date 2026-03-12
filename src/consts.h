@@ -1,18 +1,25 @@
 #pragma once
 
 // Native resolution at which the game will be rendered
-#define NATIVE_WIDTH    640
-#define NATIVE_HEIGHT   320
+#define SCREEN_W    640
+#define SCREEN_H   320
 
 // Size of the screen (scaled up/down from native res)
-#define SCREEN_WIDTH    NATIVE_WIDTH*2
-#define SCREEN_HEIGHT   NATIVE_HEIGHT*2
+#define WINDOW_W    SCREEN_W*2
+#define WINDOW_H   SCREEN_H*2
+
+// Shared constant for app name
+#define APP_NAME "thingy"
+// Shared constant for app ID
+#define APP_ID "se.voxelmanip.thingy"
+// Shared constant for app "org"
+#define APP_ORG "ROllerozxa"
 
 #define GLYPH_WIDTH 8
 #define GLYPH_HEIGHT 16
 
-#define CELLS_X (NATIVE_WIDTH/GLYPH_WIDTH)
-#define CELLS_Y (NATIVE_HEIGHT/GLYPH_HEIGHT)
+#define CELLS_X (SCREEN_W/GLYPH_WIDTH)
+#define CELLS_Y (SCREEN_H/GLYPH_HEIGHT)
 
 // Colours
 #include "colour.h"
@@ -67,4 +74,4 @@
 
 // Misc helper macros
 
-#define RECT(x,y,w,h) &((SDL_Rect){x,y,w,h})
+#define RECT(x,y,w,h) ((SDL_FRect){x,y,w,h})

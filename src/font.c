@@ -5,11 +5,11 @@
 SDL_Texture* font_tex;
 
 SDL_Texture* load_font(SDL_Renderer *renderer) {
-	SDL_Surface *surface = SDL_CreateRGBSurface(0, FONT_WIDTH, FONT_HEIGHT, 32,
-	0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+	SDL_Surface *surface = SDL_CreateSurface(FONT_WIDTH, FONT_HEIGHT,
+		SDL_GetPixelFormatForMasks(32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000));
 
-	Uint32 white = SDL_MapRGB(surface->format, 255, 255, 255);
-	Uint32 black = SDL_MapRGBA(surface->format, 0, 0, 0, 0);
+	Uint32 white = SDL_MapSurfaceRGB(surface, 255, 255, 255);
+	Uint32 black = SDL_MapSurfaceRGBA(surface, 0, 0, 0, 0);
 
 	for (int y = 0; y < FONT_HEIGHT; ++y) {
 		for (int x = 0; x < FONT_WIDTH; ++x) {
@@ -19,7 +19,8 @@ SDL_Texture* load_font(SDL_Renderer *renderer) {
 	}
 
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+	SDL_DestroySurface(surface);
 
 	return texture;
 }
@@ -37,10 +38,10 @@ void draw_char(SDL_Renderer *renderer, unsigned char character, int cx, int cy, 
 
 	SDL_SetTextureColorMod(font_tex, clr.r, clr.g, clr.b);
 
-	SDL_RenderCopy(
+	SDL_RenderTexture(
 		renderer, font_tex,
-		RECT(cell_x*GLYPH_WIDTH, cell_y*GLYPH_HEIGHT, GLYPH_WIDTH, GLYPH_HEIGHT),
-		RECT(cx, cy, GLYPH_WIDTH, GLYPH_HEIGHT)
+		&RECT(cell_x*GLYPH_WIDTH, cell_y*GLYPH_HEIGHT, GLYPH_WIDTH, GLYPH_HEIGHT),
+		&RECT(cx, cy, GLYPH_WIDTH, GLYPH_HEIGHT)
 	);
 }
 

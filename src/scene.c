@@ -19,7 +19,7 @@ int add_scene(Scene scene) {
 
 int switch_scene(const char* name) {
 	for (size_t i = 0; i < MAX_SCENES; i++) {
-		if (name == scenes[i].name) {
+		if (strcmp(name, scenes[i].name) == 0) {
 			current_scene = i;
 			return 1;
 		}

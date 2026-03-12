@@ -1,7 +1,6 @@
 #include "screen.h"
 #include "consts.h"
 #include "font.h"
-#include "scene.h"
 
 Cell screen[CELLS_X][CELLS_Y];
 
@@ -45,7 +44,7 @@ void screen_clear(enum CuddlesColours bg) {
 }
 
 void screen_update(void) {
-	run_scene_update();
+
 }
 
 void screen_draw(SDL_Renderer *renderer) {
@@ -59,7 +58,7 @@ void screen_draw(SDL_Renderer *renderer) {
 			SDL_Color bg_col = colour_to_sdl(cell.bg_col);
 
 			SDL_SetRenderDrawColor(renderer, bg_col.r, bg_col.g, bg_col.b, 255);
-			SDL_RenderFillRect(renderer, RECT(GLYPH_WIDTH*x, GLYPH_HEIGHT*y, GLYPH_WIDTH, GLYPH_HEIGHT));
+			SDL_RenderFillRect(renderer, &RECT(GLYPH_WIDTH*x, GLYPH_HEIGHT*y, GLYPH_WIDTH, GLYPH_HEIGHT));
 
 			if (cell.character != ' ') {
 				SDL_Color fg_col = colour_to_sdl(cell.fg_col);
@@ -67,6 +66,4 @@ void screen_draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
-
-	run_scene_draw(renderer);
 }

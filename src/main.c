@@ -1,66 +1,78 @@
-#include <SDL2/SDL.h>
+#include "app.h"
+#include "consts.h"
+#include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 
-#include "consts.h"
-#include "game.h"
-#include "screen.h"
-#include "scene.h"
+#define SDL_MAIN_USE_CALLBACKS
+#include <SDL3/SDL_main.h>
 
-bool quit = false;
+SDL_Window *window;
+SDL_Renderer *renderer;
 
-int main(int argc, char* argv[]) {
+SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_Init(SDL_INIT_VIDEO);
 
-	SDL_Window *window;
-	SDL_Renderer *renderer;
+	SDL_WindowFlags windowflags = 0;
+
 	SDL_CreateWindowAndRenderer(
-		SCREEN_WIDTH, SCREEN_HEIGHT,
-		0, &window, &renderer);
+		APP_NAME,
+		WINDOW_W, WINDOW_H,
+		windowflags, &window, &renderer);
 
 	if (!window || !renderer) {
 		char msg[1024];
 		snprintf(msg, 1023, "Failed to start the game. Error: %s", SDL_GetError());
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
+		return SDL_APP_FAILURE;
 	}
 
-	SDL_RenderSetLogicalSize(renderer, NATIVE_WIDTH, NATIVE_HEIGHT);
+	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
-	SDL_RenderSetVSync(renderer, 1);
-	SDL_SetWindowTitle(window, "roller <3 kittynunu");
+	SDL_SetRenderVSync(renderer, 1);
 
-	add_scene((Scene){"game", game_update, game_draw});
+	AppInit(window, renderer);
 
-	SDL_assert(switch_scene("game") == 1);
+	return SDL_APP_CONTINUE;
+}
 
-	screen_init();
 
-	while (!quit) {
-		SDL_Event ev;
-		while (SDL_PollEvent(&ev)) {
-			if (ev.type == SDL_QUIT || (ev.type == SDL_KEYDOWN && ev.key.keysym.scancode == SDL_SCANCODE_Q)) {
-				quit = true;
-				break;
-			}
-		}
+SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
-		screen_update();
-
-		SDL_SetRenderDrawColor(renderer, 0x11, 0x11, 0x11, 0xFF);
-
-		SDL_RenderClear(renderer);
-
-		screen_draw(renderer);
-
-		SDL_RenderPresent(renderer);
+	if (ev->type == SDL_EVENT_QUIT
+	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q
+		&& (ev->key.mod & SDL_KMOD_CTRL) && (ev->key.mod & SDL_KMOD_SHIFT))) {
+		AppQuit();
+		return SDL_APP_CONTINUE;
 	}
 
+	SDL_ConvertEventToRenderCoordinates(renderer, ev);
+
+	AppEvent(ev);
+
+	return SDL_APP_CONTINUE;
+}
+
+extern bool exiting;
+
+SDL_AppResult SDL_AppIterate(void *rustptr) {
+	AppUpdate();
+
+	if (exiting)
+		return SDL_APP_SUCCESS;
+
+	AppDraw(renderer);
+
+	SDL_RenderPresent(renderer);
+
+	return SDL_APP_CONTINUE;
+}
+
+void SDL_AppQuit(void *rustptr, SDL_AppResult result) {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
 	SDL_Quit();
-
-	return 0;
 }
