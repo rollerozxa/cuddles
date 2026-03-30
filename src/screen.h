@@ -1,6 +1,7 @@
 #pragma once
 
-#include "colour.h"
+#include "consts.h"
+#include "draw.h"
 #include <SDL3/SDL.h>
 
 typedef struct {
@@ -8,6 +9,8 @@ typedef struct {
 	int fg_col;
 	char character;
 } Cell;
+
+extern Cell screen[CELLS_X][CELLS_Y];
 
 void screen_init(void);
 

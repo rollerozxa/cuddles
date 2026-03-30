@@ -1,5 +1,6 @@
 #include "screen.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 
 Cell screen[CELLS_X][CELLS_Y];
@@ -55,13 +56,13 @@ void screen_draw(SDL_Renderer *renderer) {
 		for (size_t y = 0; y < CELLS_Y; y++) {
 			Cell cell = screen[x][y];
 
-			SDL_Color bg_col = colour_to_sdl(cell.bg_col);
+			SDL_Color bg_col = color_to_sdl(cell.bg_col);
 
 			SDL_SetRenderDrawColor(renderer, bg_col.r, bg_col.g, bg_col.b, 255);
 			SDL_RenderFillRect(renderer, &RECT(GLYPH_WIDTH*x, GLYPH_HEIGHT*y, GLYPH_WIDTH, GLYPH_HEIGHT));
 
 			if (cell.character != ' ') {
-				SDL_Color fg_col = colour_to_sdl(cell.fg_col);
+				SDL_Color fg_col = color_to_sdl(cell.fg_col);
 				draw_char(renderer, screen[x][y].character, x*GLYPH_WIDTH, y*GLYPH_HEIGHT, fg_col);
 			}
 		}

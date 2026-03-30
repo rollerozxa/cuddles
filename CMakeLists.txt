@@ -14,7 +14,7 @@ include_directories(
 	lib/
 )
 
-file(GLOB SRCS
+file(GLOB SRCS CONFIGURE_DEPENDS
 	src/*.c
 	lib/*.c
 )
